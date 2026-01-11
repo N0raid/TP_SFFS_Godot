@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://w8vb2othspej"]
+
+[ext_resource type="Texture2D" uid="uid://dw5183nqqfc4k" path="res://assets/Sprites/PNG/playerShip3_green.png" id="1_3gvst"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55jtl"]
+size = Vector2(97, 69)
+
+[node name="Enemy" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.1415927
+texture = ExtResource("1_3gvst")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 4.5)
+shape = SubResource("RectangleShape2D_55jtl")
