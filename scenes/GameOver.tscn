@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfqgjvq465nlm"]
+
+[ext_resource type="Script" uid="uid://daon8v0y3ayje" path="res://scripts/GameOver.gd" id="1_6bcno"]
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_6bcno")
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.578
+anchor_right = 0.5
+anchor_bottom = 0.578
+offset_left = -34.0
+offset_top = -14.544006
+offset_right = 34.0
+offset_bottom = 16.455994
+grow_horizontal = 2
+grow_vertical = 2
+text = "Rejouer"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 527.0
+offset_top = 236.0
+offset_right = 624.0
+offset_bottom = 259.0
+text = "Fin de partie"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_press"]

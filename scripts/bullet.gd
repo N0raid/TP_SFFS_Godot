@@ -2,22 +2,20 @@ extends Area2D
 
 @export var speed: float = 400.0
 
-func _ready() -> void:
-	# connecter le signal si besoin dans l'éditeur.
-	
-	pass
 
 func _physics_process(delta: float) -> void:
-	# Déplacement simple vers le haut.
-	position.y -= speed * delta
-	
-	# TODO: si la balle sort de l'écran (position.y < une valeur), la détruite avec queue_free().
-	
-	pass
+	global_position.y -= speed * delta
 
-func _on_Bullet_body_entered(body: Node) -> void:
-	# Cette fonction est à relier au signal body_entered ou area_entered dans le squelette.
-	# TODO: Si body est un ennemi, le détruire et se détruire.
-	# TODO: prévenir la scène principale pour ajouter des points (signal, méthode globale, etc.).
-	
-	pass
+	var viewport_rect = get_viewport_rect()
+	if global_position.y < -10.0 or global_position.y > viewport_rect.size.y + 10.0:
+		queue_free()
+
+
+func _on_Bullet_body_entered(body: Node2D) -> void:
+	var main := get_tree().current_scene
+	if body.is_in_group("enemy"):
+		if body.has_method("on_hit"):
+			body.on_hit()
+		main.add_score(10)
+		Events.enemy_died.emit()
+		queue_free()

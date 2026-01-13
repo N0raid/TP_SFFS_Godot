@@ -3,23 +3,45 @@ extends CharacterBody2D
 @export var speed: float = 250.0
 @export var bullet_scene: PackedScene
 
-# Limites horizontales (à ajuster dans le TP)
-@export var min_x: float = 0.0
-@export var max_x: float = 640.0
+@export var min_x: float = 32.0
+@export var max_x: float = 1100.0
+
+@onready var muzzle: Marker2D = $Muzzle
+@onready var timer: Timer = $Timer
+
+var shot_possible: bool = true
+
 
 func _physics_process(delta: float) -> void:
-	# TODO: lire les actions de déplacement (ui_left, ui_right).
-	# TODO: mettre à jour velocity.x en fonction de l'input et de speed.
-	# TODO: appeler move_and_slide()
-	
-	# TODO: empêcher le joueur de sortir de l'écran (clamp de position.x).
-	
-	pass
+	var input_dir := 0.0
+	if Input.is_action_pressed("ui_left"):
+		input_dir -= 25.0
+	if Input.is_action_pressed("ui_right"):
+		input_dir += 25.0
+
+	velocity.x = input_dir * speed * delta
+	velocity.y = 0.0
+
+	move_and_slide()
+
+	global_position.x = clamp(global_position.x, min_x, max_x)
+
+func _on_timer_timeout() -> void:
+	shot_possible = true
 
 func _unhandled_input(event: InputEvent) -> void:
-	# TODO: si la touche de tir est pressée (ex: "ui_accept"),
-	# intancier une balle à partir de bullet_scene, 
-	# positionner la balle sur le Marker2D "Muzzle",
-	# puis l'ajouter à la scène (par exemple "get_tree().current_scene.add_child(bullet)").
-	
-	pass
+	if event.is_action_pressed("ui_accept") and shot_possible:
+		shot_possible = false
+		timer.start()
+		_shoot()
+
+
+func _shoot() -> void:
+	if bullet_scene == null:
+		return
+
+	var bullet = bullet_scene.instantiate()
+	var root = get_tree().current_scene
+	root.add_child(bullet)
+
+	bullet.global_position = muzzle.global_position

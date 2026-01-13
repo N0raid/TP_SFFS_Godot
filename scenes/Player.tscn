@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://di33300ymkwvg"]
+[gd_scene load_steps=5 format=3 uid="uid://di33300ymkwvg"]
 
 [ext_resource type="Texture2D" uid="uid://o12igy4af2n0" path="res://assets/Sprites/PNG/playerShip1_red.png" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://dq4ps06s5i26q" path="res://scripts/player.gd" id="1_v6fml"]
+[ext_resource type="PackedScene" uid="uid://cgx8g6kbhm8j0" path="res://scenes/Bullet.tscn" id="2_3li8b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5q5h1"]
 size = Vector2(98.68, 44.415)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_v6fml")
+bullet_scene = ExtResource("2_3li8b")
 
 [node name="PlayerSprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_p0vlq")
@@ -14,5 +18,10 @@ texture = ExtResource("1_p0vlq")
 position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_5q5h1")
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(0, -32)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
