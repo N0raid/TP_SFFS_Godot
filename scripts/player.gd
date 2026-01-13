@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed: float = 250.0
 @export var bullet_scene: PackedScene
 
-@export var min_x: float = 32.0
+@export var min_x: float = 50.0
 @export var max_x: float = 1100.0
 
 @onready var muzzle: Marker2D = $Muzzle
@@ -37,9 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _shoot() -> void:
-	if bullet_scene == null:
-		return
-
 	var bullet = bullet_scene.instantiate()
 	var root = get_tree().current_scene
 	root.add_child(bullet)

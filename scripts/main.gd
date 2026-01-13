@@ -4,6 +4,8 @@ extends Node2D
 @export var enemy_scene: PackedScene
 @export var game_over_scene: PackedScene
 
+@export var default_score: int = 10
+
 var score: int = 0
 var hud: CanvasLayer
 
@@ -26,8 +28,8 @@ func _spawn_enemies() -> void:
 	var cols := 5
 	var start_x := 80.0
 	var start_y := 60.0
-	var spacing_x := 80.0
-	var spacing_y := 40.0
+	var spacing_x := 150.0
+	var spacing_y := 120.0
 
 	for row in range(rows):
 		for col in range(cols):
@@ -39,7 +41,7 @@ func _spawn_enemies() -> void:
 			)
 
 
-func add_score(points: int) -> void:
+func add_score(points: int = default_score) -> void:
 	score += points
 	if hud:
 		hud.set_score(score)
